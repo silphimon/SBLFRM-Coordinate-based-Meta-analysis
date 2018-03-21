@@ -6,7 +6,7 @@ This repository contains the Matlab code that runs the MCMC for the Spatial Baye
 
 ## Reference
 
-Montagna, S., Wager, T., Barrett, L. F., Johnson, T. D., & Nichols, T. E. (2017). Spatial Bayesian latent factor regression modeling of coordinate-based meta-analysis data. Biometrics. http://doi.org/10.1111/biom.12713
+Montagna, S., Wager, T., Barrett, L. F., Johnson, T. D., & Nichols, T. E. (2017). Spatial Bayesian latent factor regression modeling of coordinate-based meta-analysis data. _Biometrics_. http://doi.org/10.1111/biom.12713
 
 ## Requirements
 
@@ -49,7 +49,7 @@ dlmwrite('T88_new.txt', T88_new);
 * `Plots.R` This is the R code needed to reproduce some of the plots shown in the paper
 
 
-## Brain Masks (2 files):
+## Brain Masks (2 files)
 
 * `brainmask.nii` This is a 2 x 2 x 2 mm brain mask [91 x 109 x 91 voxels]
 
