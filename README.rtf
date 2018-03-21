@@ -1,0 +1,55 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid401\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid5}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww13020\viewh14500\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 This folder contains the Matlab code that runs the MCMC for the Spatial Bayesian Latent Factor Model (the steps are outlined in Web Appendix B), and the data used for the neuroimaging application (Section 3 of the paper). \
+Requirements: spm software (available at {\field{\*\fldinst{HYPERLINK "http://www.fil.ion.ucl.ac.uk/spm/software/spm12/"}}{\fldrslt http://www.fil.ion.ucl.ac.uk/spm/software/spm12/}})\
+\
+\ul DATA (3 files):\
+\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls1\ilvl0\cf0 \ulnone {\listtext	\'95	}foci.txt: contains the data of the neuroimaging application outlined in Section 3 of the paper. The data matrix has four columns: Study ID, X, Y, Z coordinates. The number of rows corresponds to the total number of foci. Coordinates are intended to be in the MNI coordinate space. Please convert coordinates measured in other spaces to MNI and make sure coordinates fall within a standard MNI brain mask. For example, to convert Talairach coordinates to MNI open Matlab and add the tal2mni function (see below) to the path, then run the following lines of code\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0  	  \
+	  T88 = textread(\'93T88_old.txt\'94); 	% File T88_old.txt contains the Talairach coordinates\
+	  % addpath to spm (check the name of the folder containing the installed version of spm)\
+           addpath ~/Documents/\'85./spm\
+	  spm\
+	  T88_new = tal2mni(T88);\
+           dlmwrite(\'93T88_new.txt\'94, T88_new);\
+\
+	  File \'93T88_new.txt\'94 contains the Talairach coordinates converted to MNI space \
+\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls2\ilvl0\cf0 {\listtext	\'95	}covariates.txt: contains the study-specific covariates. The matrix has dimension N x r, where N is the number of studies and r is the number of covariates. In the paper, r = 5 and the covariates are modality (fMRI = 1 / PET = 0), the (standardised) number of subject scanned, inference method (fixed = 0 / random = 1 effects), type of stimulus (auditory = 0, visual = 1, recall = 2, imagery = 3, visual and auditory = 4, olfaction = 5), and p-values correction (corrected = 0 / uncorrected = 1)\
+{\listtext	\'95	}studytype.txt: contains the study-types for the studies in the neuroimaging application in Section 3. The types are coded as 1 = Anger, 2 = Disgust, 3 = Fear, 4 = Happy, 5 = Sad\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\ul MATLAB CODE (4 files):\ulnone \
+\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls3\ilvl0\cf0 {\listtext	\'95	}main_3D.m: this is the main code that runs the MCMC for the 3-dimensional spatial Bayesian latent factor model. Line-by-line explanation of each command is given in the file itself. It is important that the user sets the working directory to the source code and data location (modify line 4 as appropriate). Also, it is necessary to add the path to spm to use the nifti function at line 101. A 4 x 4 x 4 grid is used to approximate the integral at the HMC step (update of \\theta_i in Web Appendix B). File mask_4mm.nii contains the brain mask used for the approximation. A different grid can be used, but will require modifications of the code at lines 53-57, 101, and 107. At line 100, the path to spm version 8 is added. If a different version of spm is used, please modify line 100 as appropriate. The code automatically saves the posterior samples for inference\
+{\listtext	\'95	}HMC.m: includes the HMC function to update the basis function coefficients (Web Appendix B, update of \\theta_i). This file should not be modified by the user\
+{\listtext	\'95	}randraw.m: this file includes instrumental functions (it should not be modified by the user) \
+{\listtext	\'95	}tal2mni.m: this function converts coordinates to MNI brain best guess from Talairach coordinates (see above)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+ \
+\ul R CODE (1 file):\ulnone \
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls4\ilvl0\cf0 {\listtext	\'95	}Plots.R: R code to reproduce some of the plots shown in the paper\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\ul BRAIN MASKS (2 files):\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls5\ilvl0\cf0 \ulnone {\listtext	\'95	}brainmask.nii: 2 x 2 x 2 mm brain mask [91 x 109 x 91 voxels]\
+{\listtext	\'95	}mask_4mm.nii: 4 x 4 x 4 mm brain mask [45 x 54 x 45 voxels]\
+}
